@@ -138,7 +138,6 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
-    /* Scrollbar oculta */
     .step::-webkit-scrollbar { width: 0; }
 
     /* Indicador */
@@ -190,30 +189,30 @@
       overflow: hidden;
       position: relative;
       height: 140px;
-      background-size: cover;
-      background-position: center;
       display: flex;
       align-items: flex-end;
       padding: 14px 12px;
       border: 2px solid rgba(255,255,255,0.2);
-      cursor: pointer;
       transition: 0.3s;
       box-shadow: 0 15px 30px rgba(0,0,0,0.5);
     }
     .portada-card:active { transform: scale(0.98); }
+    
+    .portada-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    
     .portada-card::before {
       content: "";
       position: absolute;
       inset: 0;
       background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
       z-index: 1;
-    }
-    .portada-card input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 5;
     }
     .portada-content { position: relative; z-index: 2; width: 100%; }
     .portada-nombre {
@@ -243,7 +242,7 @@
     }
 
     .portada-wara {
-      background: linear-gradient(135deg, #ec4899, #a855f7, #7c3aed);
+      background-color: #a855f7;
       border-color: rgba(236,72,153,0.7);
       box-shadow: 0 0 35px rgba(236,72,153,0.3), 0 15px 30px rgba(0,0,0,0.5);
       animation: glowWara 3s ease-in-out infinite;
@@ -257,7 +256,7 @@
     .portada-wara .portada-badge { color: #f9a8d4; border:1px solid rgba(236,72,153,0.5); }
 
     .portada-hanz {
-      background: linear-gradient(135deg, #3b82f6, #2563eb, #1d4ed8);
+      background-color: #3b82f6;
       border-color: rgba(59,130,246,0.7);
       box-shadow: 0 0 35px rgba(59,130,246,0.35), 0 15px 30px rgba(0,0,0,0.5);
       animation: glowHanz 3s ease-in-out infinite;
@@ -283,19 +282,6 @@
     @keyframes floatIcon {
       0%,100%{ transform:translateY(0); }
       50%{ transform:translateY(-5px); }
-    }
-    .portada-iniciales {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.5rem;
-      font-weight: 900;
-      opacity: 0.15;
-      color: white;
-      z-index: 0;
-      letter-spacing: 3px;
     }
 
     /* ========== INVITACIÓN FORMAL ========== */
@@ -420,13 +406,13 @@
 </head>
 <body>
 
-  <!-- MÚSICA -->
+  <!-- ========== MÚSICA DE FONDO ========== -->
   <audio id="bgMusic" loop preload="auto">
     <source src="musica-fondo.mp3" type="audio/mpeg">
     <source src="musica-fondo.ogg" type="audio/ogg">
   </audio>
 
-  <!-- SPLASH -->
+  <!-- ========== SPLASH SCREEN ========== -->
   <div class="splash-screen">
     <div class="splash-cake">🎂</div>
     <div class="splash-names">Jazmin & Hanz</div>
@@ -434,10 +420,10 @@
     <div class="splash-dots"><span></span><span></span><span></span></div>
   </div>
 
-  <!-- CONTENEDOR -->
+  <!-- ========== CONTENEDOR PRINCIPAL ========== -->
   <div class="main-container" id="mainContainer">
 
-    <!-- PASO 1 -->
+    <!-- ===== PASO 1: INVITACIÓN FORMAL ===== -->
     <div class="step active" id="step1">
       <div class="step-indicator">
         <span class="step-dot current"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span>
@@ -457,41 +443,46 @@
       <div class="footer-note">Paso 1 de 4</div>
     </div>
 
-    <!-- PASO 2 -->
+    <!-- ===== PASO 2: NUESTROS FESTEJADOS ===== -->
     <div class="step" id="step2">
       <div class="step-indicator">
         <span class="step-dot done"></span><span class="step-dot current"></span><span class="step-dot"></span><span class="step-dot"></span>
       </div>
       <h2 class="step-title">🎉 Nuestros Festejados</h2>
-      <div class="step-subtitle">Toca la portada para poner foto</div>
+      <div class="step-subtitle">Juntos celebramos un año más</div>
       <div class="portadas-container">
-        <div class="portada-card portada-wara" id="portadaWara">
-          <div class="portada-iniciales">WJ</div>
+        
+        <!-- ========== WARA JAZMIN ========== -->
+        <!-- CAMBIA 'foto-wara.jpg' por el nombre de tu foto -->
+        <div class="portada-card portada-wara">
+          <img src="jaz.JPG" alt="Wara Jazmin">
           <div class="portada-icono">💜</div>
           <div class="portada-content">
             <div class="portada-nombre">Wara Jazmin</div>
             <div class="portada-apellido">Guarachi Espinoza</div>
             <span class="portada-badge"><i class="fa-solid fa-cake-candles"></i> Cumpleañera</span>
           </div>
-          <input type="file" accept="image/*" onchange="loadPortada(event, 'portadaWara')">
         </div>
-        <div class="portada-card portada-hanz" id="portadaHanz">
-          <div class="portada-iniciales">HG</div>
+
+        <!-- ========== HANZ ALFREDO ========== -->
+        <!-- CAMBIA 'foto-hanz.jpg' por el nombre de tu foto -->
+        <div class="portada-card portada-hanz">
+          <img src="foto-hanz.jpg" alt="Hanz Alfredo">
           <div class="portada-icono">💙</div>
           <div class="portada-content">
             <div class="portada-nombre">Hanz Alfredo</div>
             <div class="portada-apellido">Guarachi Espinoza</div>
             <span class="portada-badge"><i class="fa-solid fa-cake-candles"></i> Cumpleañero</span>
           </div>
-          <input type="file" accept="image/*" onchange="loadPortada(event, 'portadaHanz')">
         </div>
+
       </div>
       <button class="btn btn-purple" onclick="nextStep(3)">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
       <button class="btn btn-back" onclick="prevStep(1)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
       <div class="footer-note">Paso 2 de 4</div>
     </div>
 
-    <!-- PASO 3 -->
+    <!-- ===== PASO 3: CÓMO LLEGAR ===== -->
     <div class="step" id="step3">
       <div class="step-indicator">
         <span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot current"></span><span class="step-dot"></span>
@@ -508,7 +499,7 @@
       <div class="footer-note">Paso 3 de 4</div>
     </div>
 
-    <!-- PASO 4 -->
+    <!-- ===== PASO 4: CALENDARIO + CONFIRMAR ===== -->
     <div class="step" id="step4">
       <div class="step-indicator">
         <span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot current"></span>
@@ -527,6 +518,7 @@
 
   </div>
 
+  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js">
   </script>
 
@@ -548,21 +540,6 @@
           if (i === active - 1) dot.classList.add('current');
         });
       });
-    }
-
-    function loadPortada(e, id) {
-      const f = e.target.files[0];
-      if (!f) return;
-      const r = new FileReader();
-      r.onload = ev => {
-        const p = document.getElementById(id);
-        p.style.backgroundImage = `url(${ev.target.result})`;
-        p.style.backgroundSize = 'cover';
-        p.style.backgroundPosition = 'center';
-        const ini = p.querySelector('.portada-iniciales');
-        if (ini) ini.style.display = 'none';
-      };
-      r.readAsDataURL(f);
     }
 
     let musicPlaying = false;
