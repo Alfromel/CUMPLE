@@ -33,6 +33,43 @@
       background: radial-gradient(ellipse at 50% 30%, #3b1b4a 0%, #1a0a2e 40%, #0a0a18 80%);
     }
 
+    /* ========== BOTÓN DE SILENCIO FLOTANTE ========== */
+    .sound-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(22, 18, 35, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .sound-toggle:hover {
+      transform: scale(1.1);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .sound-toggle:active {
+      transform: scale(0.9);
+    }
+
+    .sound-toggle.muted {
+      background: rgba(236, 72, 153, 0.3);
+      border-color: rgba(236, 72, 153, 0.5);
+    }
+
     /* ========== SPLASH SCREEN ========== */
     .splash-screen {
       position: fixed;
@@ -444,6 +481,11 @@
 </head>
 <body>
 
+  <!-- ========== BOTÓN DE SILENCIO FLOTANTE ========== -->
+  <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Silenciar/Activar música">
+    <i class="fa-solid fa-volume-high"></i>
+  </button>
+
   <!-- ========== MÚSICA DE FONDO ========== -->
   <audio id="bgMusic" loop preload="auto">
     <source src="Jay Wheeler - EaZt (Official Video)(mp3j.cc).mp3" type="audio/mpeg">
@@ -480,7 +522,6 @@
         <div class="formal-text" style="font-size:0.75rem; margin-top:4px;">Su presencia será el mejor regalo para celebrar un año más de vida.</div>
       </div>
       <button class="btn btn-purple" onclick="nextStep(2)">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
-      <button class="btn btn-back" onclick="prevStep(1)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
       <div class="footer-note">Paso 1 de 4</div>
     </div>
 
@@ -567,17 +608,37 @@
     const bg = document.getElementById('bgMusic');
     const splashScreen = document.getElementById('splashScreen');
     const mainContainer = document.getElementById('mainContainer');
+    const soundToggle = document.getElementById('soundToggle');
 
-    // Función para entrar a la invitación
+    // ========== BOTÓN DE SILENCIO ==========
+    function toggleSound() {
+      if (musicPlaying) {
+        bg.pause();
+        soundToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        soundToggle.classList.add('muted');
+        musicPlaying = false;
+      } else {
+        bg.play().catch(() => {});
+        soundToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        soundToggle.classList.remove('muted');
+        musicPlaying = true;
+      }
+    }
+
+    // ========== ENTRAR A LA INVITACIÓN ==========
     function enterInvitation() {
       // Activar música
       if (!musicPlaying) {
         bg.play().then(() => {
           musicPlaying = true;
+          soundToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+          soundToggle.classList.remove('muted');
         }).catch(() => {
-          console.log('Música iniciada');
+          console.log('Esperando interacción');
         });
         musicPlaying = true;
+        soundToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        soundToggle.classList.remove('muted');
       }
       
       // Ocultar splash
